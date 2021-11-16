@@ -21,7 +21,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'admin@indahjaya.co.id',
             'username' => 'superuser',
             'email_verified_at' => now(),
-            'password' => Hash::make('R4ha514'),
+            'password' => Hash::make('rahasia'),
             'remember_token' => Str::random(10),
             'created_by' => 1,
             'updated_by' => 1
