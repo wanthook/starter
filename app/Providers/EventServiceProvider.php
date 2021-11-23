@@ -8,6 +8,9 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 use Illuminate\Support\Facades\Event;
 use JeroenNoten\LaravelAdminLte\Events\BuildingMenu;
 
+use App\Models\Module;
+use Auth;
+
 class EventServiceProvider extends ServiceProvider
 {
     /**
@@ -29,12 +32,54 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         Event::listen(BuildingMenu::class, function (BuildingMenu $event) {
-            // Add some items to the menu...
-            $event->menu->add('MAIN NAVIGATION');
-            $event->menu->add([
-                'text' => 'Blog',
-                'url' => 'admin/blog',
-            ]);
+            
+            $mod = Module::whereHas('users',function($q)
+            {
+                $q->where('users.id',Auth::user()->id);
+            })
+            ->orderBy('id','ASC')
+            ->get()->toTree();
+            
+            $trans = function($params) use (&$trans, $event)
+            {
+                foreach($params as $par)
+                {
+                    if(empty($par->parent))
+                    {
+                        $event->menu->add([
+                            'header' => strtoupper($par->nama)
+                        ]);
+                        $trans($par->children);
+                    }
+                    else
+                    {
+                        $route = "";
+                        if(!empty($par->param))
+                        {
+                            $route = route($par->route,explode('.',$par->param));
+                        }
+                        else
+                        {
+                            if($par->route != '#')
+                            {
+                                $route = route($par->route);
+                            }
+                            else
+                            {
+                                $route = "";                    
+                            }
+                        }
+                        
+                        $event->menu->add([
+                            'text' => $par->nama,
+                            'url'  => $route,
+                            'icon' => $par->icon,
+                        ]);
+                    }
+                }
+            };
+            $trans($mod);
         });
+
     }
 }
