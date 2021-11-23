@@ -8,19 +8,31 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+use DateTimeInterface;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-
+    
+    use SoftDeletes;
     /**
      * The attributes that are mass assignable.
      *
-     * @var string[]
+     * @var array
      */
     protected $fillable = [
-        'name',
-        'email',
+        'photo',
+        'username',
         'password',
+        'name', 
+        'email', 
+        'ttd_img',
+        'type_id',
+        'deleted_at',
+        'perusahaan_id',
+        'created_by',
+        'updated_by'
     ];
 
     /**
@@ -41,4 +53,19 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
+    }
+
+    public function modules()
+    {
+        return $this->belongsToMany('App\Module');
+    }
+    
+    public function type()
+    {
+        return $this->belongsTo('App\MasterOption', 'type_id');
+    }
 }
