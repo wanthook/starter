@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Master Option')
+@section('title', 'Module')
 
 @section('content_header')
-    <h1>Master Option</h1>
+    <h1>Module</h1>
 @stop
 
 @section('content')
@@ -62,31 +62,21 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
-<div class="card bg-gradient-primary collapsed-card">
-    <div class="card-header">
-        <h5 class="card-title"><i class=" fas fa-search"></i>&nbsp;Pencarian</h5>
-        <div class="card-tools">
-          <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
-        </div>
-    </div>
-    <div class="card-body">
-        <form role="form">
-            {{csrf_field()}}
-            <div class="form-group">
-                <label for="txtSearch">Kode / Nama</label>
-                <input type="text" class="form-control" name="txtSearch" id="txtSearch" placeholder="Kode/Nama">                  
-            </div>
-        </form>
-    </div>
-    <div class="card-footer">
-        <button class="btn btn-primary" id="cmdSearch"><i class=" fas fa-search"></i>&nbsp;Cari</button>
-    </div>
-</div>
 <div class="card card-primary card-outline">
     <div class="card-header">
-        <h5 class="card-title">&nbsp;</h5>
-        <div class="card-tools">
-            <button class="btn btn-xs btn-success" alt="Tambah" data-toggle="modal" data-target="#modal-form"><i class="fa fa-plus-circle"></i>&nbsp;Tambah</button>
+        <div class="row">
+            <div class="col-4">
+                <div class="form-group">                                        
+                    <span class="label label-default">Kode/Deskripsi</span>
+                    <input id="sSearch" class="form-control form-control-sm" name="sSearch" type="text">
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="btn-group">
+                    <button class="btn btn-sm btn-primary" id="sCmd"><i class="fa fa-search"></i>&nbsp;Cari</button>
+                    <button class="btn btn-sm btn-success" alt="Tambah" data-toggle="modal" data-target="#modal-form"><i class="fa fa-plus-circle"></i>&nbsp;Tambah</button>
+                </div>
+            </div>
         </div>
     </div>
     <!-- /.card-header -->
@@ -141,7 +131,7 @@
                     "type"      : 'POST',
                     data: function (d) 
                     {
-                        d.search     = $('#txtSearch').val();
+                        d.search     = $('#sSearch').val();
                     }
                 },
                 "columnDefs"    :[
@@ -250,12 +240,10 @@
                     return false;
                 }
             });
-
-
             
-            $('#cmdSearch').on('click',function(e)
+            $('#sCmd').on('click', function(e)
             {
-                tables.ajax.reload();
+                tables.ajax.reload()
             });
             
             $('#form_data').submit( function(e)
