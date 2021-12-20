@@ -31,6 +31,21 @@ Route::prefix('administrator')->group(function () {
         Route::post('delete', [App\Http\Controllers\MasterOptionController::class, 'destroy'])
             ->name('masteroptiondelete');
     });
+
+    Route::prefix('module')->group(function () {
+        Route::get('list', [App\Http\Controllers\ModuleController::class, 'index'])
+             ->name('modulelist');
+        Route::post('table', [App\Http\Controllers\ModuleController::class, 'dt'])
+             ->name('moduletable');
+        Route::post('select-parent', [App\Http\Controllers\ModuleController::class, 'selectparent'])
+             ->name('moduleselectparent');
+        Route::post('select-tree', [App\Http\Controllers\ModuleController::class, 'selecttree'])
+             ->name('moduleselecttree');
+        Route::post('save', [App\Http\Controllers\ModuleController::class, 'store'])
+            ->name('modulesave');
+        Route::post('delete', [App\Http\Controllers\ModuleController::class, 'destroy'])
+            ->name('moduledelete');
+    });
 });
 
 Route::get('/test', [App\Http\Controllers\HomeController::class, 'index'])->name('homie');
