@@ -29,7 +29,7 @@
                         <input type="text" class="form-control" id="deskripsi" name="deskripsi">
                     </div>
                     <div class="form-group">
-                        <label for="deskripsi">Route</label>
+                        <label for="route">Route</label>
                         <select class="form-control select2" name="route" id="route">
                             <option value="">--Silakan Pilih--</option>
                             @foreach(Route::getRoutes() as $route)
@@ -183,8 +183,31 @@
                         }
                 }]
             });
+
+            $('#tables tbody').on('click', '.btnedit', function () 
+            {
+                var tr = $(this).closest('tr');
+                var row = tables.row( tr );
+                var datas = row.data();
+                
+                $('#id').val(datas.id);
+                $('#nama').val(datas.nama);
+                $('#deskripsi').val(datas.deskripsi);
+                $('#route').val(datas.route);
+
+                // $('#parent').val(datas.parent);
+                if(datas.ancestors.length > 0)
+                {
+                    var newOption = new Option(datas.ancestors[0].nama+' - '+datas.ancestors[0].deskripsi, datas.ancestors[0].id, false, false);
+                    $('#parent_id').append(newOption).trigger('change');
+                }
+
+                $('#param').val(datas.param);
+                $('#icon').val(datas.icon);
+                
+            });
             
-            $('#tables tbody').on('click', '.btndel', function () 
+            $('#tables tbody').on('click', '.btndelete', function () 
             {
                 var tr = $(this).closest('tr');
                 var row = tables.row( tr );
@@ -240,7 +263,7 @@
                     return false;
                 }
             });
-            
+
             $('#sCmd').on('click', function(e)
             {
                 tables.ajax.reload()
@@ -299,10 +322,9 @@
             $('#modal-form').on('hidden.bs.modal', function (e) 
             {
                 document.getElementById("form_data").reset(); 
+                $('#parent_id').val("").trigger('change');
                 tables.ajax.reload();
             });
-            
-            
             
             $('#parent_id').select2({
                 placeholder: "",
