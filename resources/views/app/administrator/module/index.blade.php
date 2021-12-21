@@ -256,7 +256,7 @@
                                 }
 
                             }
-                            tablesKar.ajax.reload();
+                            tables.ajax.reload();
                         }
                     });
 
@@ -279,12 +279,12 @@
                     url         : $(this).attr('action'),
                     dataType    : 'json',
                     type        : 'POST',
-                    data        : $('#form_data').serialize() ,
+                    data        : data ,
                     success(result,status,xhr)
                     {
                         if(result.status == 1)
                         {
-                            document.getElementById("form_data").reset(); 
+                            reset();
                             
                             Toast.fire({
                                 type: 'success',
@@ -321,9 +321,7 @@
             
             $('#modal-form').on('hidden.bs.modal', function (e) 
             {
-                document.getElementById("form_data").reset(); 
-                $('#parent_id').val("").trigger('change');
-                tables.ajax.reload();
+                reset();
             });
             
             $('#parent_id').select2({
@@ -353,5 +351,12 @@
                 }
             });
         });
+
+        function reset()
+        {
+            document.getElementById("form_data").reset(); 
+            $('#parent_id').val("").trigger('change');
+            tables.ajax.reload();
+        }
     </script>
 @stop

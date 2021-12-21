@@ -69,7 +69,7 @@ class ModuleController extends Controller
                     $req['updated_by']   = Auth::user()->id;
                     $req['created_by']   = Auth::user()->id;
                     
-                    if(!$req['route'])
+                    if(!isset($req['route']))
                     {
                         $req['route'] = '#';
                     }
@@ -86,7 +86,7 @@ class ModuleController extends Controller
                     $req['updated_by']   = Auth::user()->id;        
                     $req['updated_at']   = Carbon::now();
 
-                    if(!$req['route'])
+                    if(!isset($req['route']))
                     {
                         $req['route'] = '#';
                     }
@@ -181,8 +181,8 @@ class ModuleController extends Controller
         {
             $datas->where(function($q) use($req)
             {
-                $q->where('nama', $req['search']);
-                $q->orWhere('deskripsi', $req['search']);
+                $q->where('nama', 'like',str_replace('*','%',$req['search']));
+                $q->orWhere('deskripsi', 'like', str_replace('*','%',$req['search']));
             });
         }
 
