@@ -6,6 +6,7 @@ Aplikasi Packing ini dibuat untuk memonitoring proses dari hulu ke hilir pada ba
 
 - Taufiq Hari Widodo / taufiq@indahjaya.co.id
 - Rakhmat Tejoprasetio / rakhmat@indahjayagroup.id
+- Lindha Oktafiani / it.functional@indahjayagroup.id
 
 ## Code of Conduct
 
